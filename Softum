@@ -1,0 +1,121 @@
+// Given an array of integers, find the pair of adjacent elements that has the largest product and return that product.
+
+// Example
+
+// For inputArray = [3, 6, -2, -5, 7, 3], the output should be
+// adjacentElementsProduct(inputArray) = 21.
+
+// 7 and 3 produce the largest product.
+
+// function adjacentElementsProduct (inputArray) {
+    // your code...
+// }
+// For testing:
+// [-1, -2]
+// [5, 1, 2, 3, 1, 4]
+// [1, 2, 3, 0]
+// [9, 5, 10, 2, 24, -1, -48]
+
+function adjacentElementsProduct(arr) {
+  var productValue = [];
+  //создаем и пустой массив
+  for(var i = 0; i < arr.length; i+=2){
+    // масив циклического характера по двум элементам одновременно
+    console.log(arr[i], arr[i+1]);
+    // Создаем var который умножает текущее значение в последовательности и умножает его на следующий с arr[i+]
+    var adjacentValue = arr[i] * arr[i+1];
+    productValue.push(adjacentValue);
+    }
+    //отправляем значение и используем reduce/math.max(a,b) для поиска нужного значения
+  return productValue.reduce(function(a,b){
+    return Math.max(a,b);
+  })
+}
+adjacentElementsProduct([1, 2, 3, 0]);
+
+
+// Tic-Tac-Toe, sometimes also known as Xs and Os, is a game for two players (X and O) who take turns marking the spaces in a 3X3 grid. The player who succeeds in placing three respective marks in a horizontal, vertical, or diagonal rows (NW-SE and NE-SW) wins the game.
+// But we will not be playing this game. You will be the referee for this games results. You are given a result of a game and you must determine if the game ends in a win or a draw as well as who will be the winner. Make sure to return "X" if the X-player wins and "O" if the O-player wins. If the game is a draw, return "D".
+// A game's result is presented as a list of strings, where "X" and "O" are players' marks and "." is the empty cell.
+// Input: A game result as a list of strings (unicode).
+// Output: "X", "O" or "D" as a string.
+// Precondition:
+// There is either one winner or a draw.
+// Do not use regular expressions!
+
+// function xoReferee(data) {
+//   // Your code here
+// }
+
+// // Example
+// xoReferee([
+//         "X.O",
+//         "XX.",
+//         "XOO"]) -> "X"
+
+function xoReferee(data) {
+    var chars = data.map(function (a) {return a.split('')});
+    for(var i=0; i<3; i++){
+        data.push(chars[0][i] + chars[1][i] + chars[2][i]);
+    }
+    data.push(chars[0][0] + chars[1][1] + chars[2][2]);
+    data.push(chars[2][0] + chars[1][1] + chars[0][2]);
+    if (data.indexOf("XXX") + 1) {
+        return "X"
+    }
+    if (data.indexOf("OOO") + 1) {
+        return "O"
+    }
+    return "D"
+}
+var assert = require('assert');
+if (!global.is_xoReferee) {
+    assert.equal(xoReferee([
+        "X.O",
+        "XX.",
+        "XOO"]), "X", "Xs wins");
+    assert.equal(checkio([
+        "OO.",
+        "XOX",
+        "XOX"]), "O", "Os wins");
+    assert.equal(checkio([
+        "OOX",
+        "XXO",
+        "OXX"]), "D", "Draw");
+    assert.equal(checkio([
+        "O.X",
+        "XX.",
+        "XOO"]), "X", "Xs wins again");
+}
+
+// --------------------------------------------------------
+
+function xoReferee(data) {
+    let win = "";
+    data[0] = data[0].split('');
+    data[1] = data[1].split('');
+    data[2] = data[2].split('');
+
+    for (let i = 0; i < 3; i++) {
+        //checking horizontally
+        if (data[i][0] == data[i][1] && data[i][1] == data[i][2]) {
+            win = data[i][0];
+        }
+        //checking vertically
+        else if (data[0][i] == data[1][i] && data[1][i] == data[2][i]) {
+            win = data[0][i];
+        }
+        //checking diagnolly
+        else if (data[0][0] == data[1][1] && data[1][1] == data[2][2]) {
+            win = data[0][0];
+        } else if (data[0][2] == data[1][1] && data[1][1] == data[2][0]) {
+            win = data[0][2];
+        }
+    }
+
+    if (win != "X" && win != "O") {
+        win = "D";
+    }
+
+    return win;
+}
